@@ -9,7 +9,7 @@ import java.io.IOException;
 
 @Service
 public class TokenService {
-    Lexer lexer = new Lexer(new FileReader("E:\\5 sem\\Метрология\\Задание№1_Метрики_Холстеда\\java\\halstead-metrics\\src\\main\\java\\1.txt"));
+    Lexer lexer = new Lexer(new FileReader("C:\\Users\\ivank\\IdeaProjects\\halstead-metrics\\src\\main\\resources\\example.txt"));
 
     public TokenService() throws IOException {
         System.out.println(lexer.yylex());
