@@ -21,11 +21,10 @@ LineTerminator = \r|\n|\r\n
 InputCharacter = [^\r\n]
 WhiteSpace     = {LineTerminator} | [ \t\f]
 
-/* comments */
+
 Comment = {TraditionalComment} | {EndOfLineComment} | {DocumentationComment}
 
 TraditionalComment   = "/*" [^*] ~"*/" | "/*" "*"+ "/"
-// Comment can be the last line of the file, without line terminator.
 EndOfLineComment     = "//" {InputCharacter}* {LineTerminator}?
 DocumentationComment = "/**" {CommentContent} "*"+ "/"
 CommentContent       = ( [^*] | \*+ [^/*] )*
@@ -33,6 +32,13 @@ CommentContent       = ( [^*] | \*+ [^/*] )*
 Identifier = [:jletter:] [:jletterdigit:]*
 DataType = "Int" | "String" | "Character" | "Float" | "Double" | "Bool"
 AccessModifier = "open" | "fileprivate" | "internal" | "public" | "private"
+
+ComparisonOperators1 = "!==" | "!="
+LogicalOperators = "&&" | "||" | "!"
+BitwiseOperators = "^" | "|" | "&" | "~" | "<<" | ">>"
+ComparisonOperators2 = "<=" | ">=" | "===" | "==" | ">" | "<"
+AssignmentOperators = "=" | "+=" | "-=" | "*=" | "/=" | "%="
+ArithmeticOperators = "+" | "-" | "*" | "/" | "%"
 
 DecIntegerLiteral = "0" | [1-9][0-9]*
 DecFloatLiteral = [0-9]+ "." [0-9]+
@@ -92,24 +98,12 @@ StringLiteral = "\"" .* "\""
   {StringLiteral}                { newToken(Token.STRING); }
 
   /* operators */
-  "<="                           { newToken(Token.LESS_EQ); }
-  ">="                           { newToken(Token.MORE_EQ); }
-  "="                            { newToken(Token.ASSIGN); }
-  "==="                          { newToken(Token.EQEQ); }
-  "=="                           { newToken(Token.EQ); }
-  "!="                           { newToken(Token.NOT_EQ); }
-  "+"                            { newToken(Token.PLUS); }
-  "-"                            { newToken(Token.MINUS); }
-  "*"                            { newToken(Token.MULT); }
-  "/"                            { newToken(Token.DIVIDE); }
-  "%"                            { newToken(Token.PERCENT); }
-  "<<"                           { newToken(Token.L_SHIFT); }
-  ">>"                           { newToken(Token.R_SHIFT); }
-  "<"                            { newToken(Token.LESS); }
-  ">"                            { newToken(Token.MORE); }
-  "&&"                           { newToken(Token.AND); }
-  "^"                            { newToken(Token.XOR); }
-  "||"                           { newToken(Token.OR); }
+  {ComparisonOperators1}         { newToken(Token.COMPARISON); }
+  {LogicalOperators}             { newToken(Token.LOGICAL); }
+  {BitwiseOperators}             { newToken(Token.BITWISE); }
+  {ComparisonOperators2}         { newToken(Token.COMPARISON); }
+  {AssignmentOperators}          { newToken(Token.ASSIGN); }
+  {ArithmeticOperators}          { newToken(Token.ARITHMETIC); }
 
   ";"                            { newToken(Token.SEMICOLON); }
   "{"                            { newToken(Token.L_FIGURE); }

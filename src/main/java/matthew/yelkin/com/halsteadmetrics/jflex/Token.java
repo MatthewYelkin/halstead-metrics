@@ -2,27 +2,13 @@ package matthew.yelkin.com.halsteadmetrics.jflex;
 
 public enum Token {
     EOL("Конец строки"),
-    PLUS("Плюс +"),
-    MINUS("Минус -"),
-    MULT("Умножить *"),
-    DIVIDE("Разделить /"),
-    PERCENT("Процент %"),
-    LESS("Знак меньше <"),
-    MORE("Знак больше >"),
-    ASSIGN("Равно ="),
-    EQ("Сравнение =="),
-    NOT_EQ("Не равно !="),
-    EQEQ("Идентичность ==="),
-    NOT_EQEQ("Не идентичны !=="),
+    ARITHMETIC("Арифметические операторы"),
+    ASSIGN("Операторы присваивания"),
+    COMPARISON("Операторы сравнения"),
+    LOGICAL("Логические операторы"),
+    BITWISE("Побитовые операторы"),
     L_PAREN("Левая скобка ("),
     R_PAREN("Правая скобка )"),
-    LESS_EQ("Меньше либо равно <="),
-    MORE_EQ("Больше либо равно >="),
-    AND("Логическое И &&"),
-    XOR("Xor ^"),
-    OR("Логическое ИЛИ ||"),
-    L_SHIFT("Сдвиг влево <<"),
-    R_SHIFT("Сдвиг вправо >>"),
     CONTAINS("Проверка содержит"),
     L_FIGURE("{"),
     R_FIGURE("}"),
@@ -74,8 +60,7 @@ public enum Token {
     DATA_TYPE("Тип данных"),
     BOOL("Истина/ложь"),
     RETURN_TYPE("Возвращаемый тип из функции"),
-    ACCESS_MODIFIER("Модификатор доступа")
-    ;
+    ACCESS_MODIFIER("Модификатор доступа");
     Token(String description) {
     }
 }
