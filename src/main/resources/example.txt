@@ -1,0 +1,80 @@
+import Foundation
+
+class Task {
+    var title: String
+    var isCompleted: Bool
+
+    init(title: String, isCompleted: Bool = false) {
+        self.title = title
+        self.isCompleted = isCompleted
+    }
+}
+
+class TaskManager {
+    private var tasks: [Task] = []
+
+    func addTask(task: Task) {
+        tasks.append(task)
+    }
+
+    func removeTask(at index: Int) {
+        if index >= 0 && index < tasks.count {
+            tasks.remove(at: index)
+        }
+    }
+
+    func toggleTaskCompletion(at index: Int) {
+        if index >= 0 && index < tasks.count {
+            tasks[index].isCompleted.toggle()
+        }
+    }
+
+    func allTasks() -> [Task] {
+        return tasks
+    }
+}
+
+func printMenu() {
+    print("""
+    1. Add Task
+    2. Remove Task
+    3. Toggle Task Completion
+    4. List All Tasks
+    5. Exit
+    """)
+}
+
+let taskManager = TaskManager()
+
+while true {
+    printMenu()
+    if let choice = readLine(), let option = Int(choice) {
+        switch option {
+        case 1:
+            print("Enter task title:")
+            if let title = readLine() {
+                let task = Task(title: title)
+                taskManager.addTask(task)
+            }
+        case 2:
+            print("Enter task index to remove:")
+            if let indexStr = readLine(), let index = Int(indexStr) {
+                taskManager.removeTask(at: index)
+            }
+        case 3:
+            print("Enter task index to toggle completion:")
+            if let indexStr = readLine(), let index = Int(indexStr) {
+                taskManager.toggleTaskCompletion(at: index)
+            }
+        case 4:
+            let tasks = taskManager.allTasks()
+            for (index, task) in tasks.enumerated() {
+                print("\(index): \(task.title) [\(task.isCompleted ? "Completed" : "Pending")]")
+            }
+        case 5:
+            exit(0)
+        default:
+            print("Invalid option. Please try again.")
+        }
+    }
+}
