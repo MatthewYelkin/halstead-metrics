@@ -1,0 +1,45 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: aquamarine;
+    text-align: center;
+    padding: 20px 0 20px;
+}
+
+textarea {
+    width: 600px;
+    height: 700px;
+    resize: none;
+}
+
+form {
+    text-align: center;
+    width: 700px;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border: 1px solid #dddddd;
+    border-collapse: collapse;
+}
+
+table th {
+    height: 50px;
+    font-weight: bold;
+    padding: 5px;
+    background: #efefef;
+    border: 1px solid #dddddd;
+}
+
+table td {
+    border: 1px solid #dddddd;
+    padding: 5px;
+}
+
+div {
+    display: flex;
+}

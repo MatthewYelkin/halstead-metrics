@@ -1,0 +1,72 @@
+package matthew.yelkin.com.halsteadmetrics.jflex;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public enum TokenType {
+    EOL("Конец строки"),
+    ARITHMETIC("Арифметические операторы"),
+    ASSIGN("Операторы присваивания"),
+    COMPARISON("Операторы сравнения"),
+    LOGICAL("Логические операторы"),
+    BITWISE("Побитовые операторы"),
+    RANGE("Операторы диапазона"),
+    L_PAREN("Левая скобка ("),
+    R_PAREN("Правая скобка )"),
+    CONTAINS("Проверка содержит"),
+    L_FIGURE("{"),
+    R_FIGURE("}"),
+    L_BRACKET("["),
+    R_BRACKET("]"),
+    BREAK("Безусловный выход из цикла"),
+    CONTINUE("Переход к следующей итерации"),
+    SWITCH("Заголовок конструкции выбора"),
+    CASE("Ветвь конструкции выбора"),
+    DEFAULT("Обычная ветвь конструкции выбора"),
+    IF("Если"),
+    ELSE("Иначе"),
+    REPEAT("Заголовок цикла с постусловием"),
+    WHILE("Заголовок цикла с предусловием"),
+    IN("Проверка нахождения в множестве"),
+    WHERE("Дополнительное условие выбора"),
+    FOR("Заголовок цикла с известным количеством повторений"),
+    FROM("Из"),
+    QUESTION("?"),
+    COLON("Двоеточие"),
+    AS("Как"),
+    DO("Делать"),
+    FALLTHROUGH("Переход к следующей ветке case"),
+    NUMBER("Число"),
+    STRING("Строка"),
+    IDENTIFIER("Идентификатор"),
+    FUNCTION("Название функции"),
+    RETURN(""),
+    SEMICOLON(""),
+    DOT("Точка"),
+    COMMA("Запятая"),
+    CLASS("Класс"),
+    DEINIT(""),
+    ENUM("Перечисление"),
+    EXTENSION("Расширение"),
+    FUNC("Заголовок функции"),
+    IMPORT("Импорт"),
+    INIT(""),
+    LET(""),
+    PROTOCOL(""),
+    STATIC("Ключевое слово static"),
+    STRUCT("Структура"),
+    SUBSCRIPT(""),
+    TYPEALIAS(""),
+    VAR(""),
+    TRY(""),
+    CATCH(""),
+
+    DATA_TYPE("Тип данных"),
+    BOOL("Истина/ложь"),
+    RETURN_TYPE("Возвращаемый тип из функции"),
+    ACCESS_MODIFIER("Модификатор доступа");
+
+    private final String description;
+}

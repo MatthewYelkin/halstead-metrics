@@ -1,20 +1,12 @@
 import Foundation
 
-class Task {
+class TaskManager {
     var title: String
     var isCompleted: Bool
 
     init(title: String, isCompleted: Bool = false) {
         self.title = title
         self.isCompleted = isCompleted
-    }
-}
-
-class TaskManager {
-    private var tasks: [Task] = []
-
-    func addTask(task: Task) {
-        tasks.append(task)
     }
 
     func removeTask(at index: Int) {
@@ -35,20 +27,20 @@ class TaskManager {
 }
 
 func printMenu() {
-    print("""
+    print("
     1. Add Task
     2. Remove Task
     3. Toggle Task Completion
     4. List All Tasks
     5. Exit
-    """)
+    ")
 }
 
 let taskManager = TaskManager()
 
 while true {
     printMenu()
-    if let choice = readLine(), let option = Int(choice) {
+    let choice = readLine()
         switch option {
         case 1:
             print("Enter task title:")
@@ -69,12 +61,11 @@ while true {
         case 4:
             let tasks = taskManager.allTasks()
             for (index, task) in tasks.enumerated() {
-                print("\(index): \(task.title) [\(task.isCompleted ? "Completed" : "Pending")]")
+                print(task.title)
             }
         case 5:
             exit(0)
         default:
             print("Invalid option. Please try again.")
         }
-    }
 }

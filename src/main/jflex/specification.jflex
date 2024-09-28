@@ -1,19 +1,19 @@
 package matthew.yelkin.com.halsteadmetrics.jflex;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 %%
 
 %class Lexer
-%type ArrayList
+%type LinkedList<Token>
 %public
 %unicode
 
 %{
-    ArrayList<Token> list = new ArrayList<>();
+    LinkedList<Token> list = new LinkedList<>();
 
-    private void newToken(Token token) {
-        list.add(token);
+    private void newToken(TokenType tokenType) {
+        list.add(new Token(tokenType, yytext()));
     }
 %}
 
@@ -39,87 +39,91 @@ BitwiseOperators = "^" | "|" | "&" | "~" | "<<" | ">>"
 ComparisonOperators2 = "<=" | ">=" | "===" | "==" | ">" | "<"
 AssignmentOperators = "=" | "+=" | "-=" | "*=" | "/=" | "%="
 ArithmeticOperators = "+" | "-" | "*" | "/" | "%"
+RangeOperators = "...<" | "..."
 
 DecIntegerLiteral = "0" | [1-9][0-9]*
 DecFloatLiteral = [0-9]+ "." [0-9]+
-StringLiteral = "\"" .* "\""
+StringLiteral = "\"" [^"\""]* "\""
 
 %%
 
 <YYINITIAL> {
   /* keywords */
-  "break"              { newToken(Token.BREAK); }
-  "return"             { newToken(Token.RETURN); }
-  "switch"             { newToken(Token.SWITCH); }
-  "case"               { newToken(Token.CASE); }
-  "default"            { newToken(Token.DEFAULT); }
-  "if"                 { newToken(Token.IF); }
-  "else"               { newToken(Token.ELSE); }
-  "repeat"             { newToken(Token.REPEAT); }
-  "while"              { newToken(Token.WHILE); }
-  "in"                 { newToken(Token.IN); }
-  "where"              { newToken(Token.WHERE); }
-  "for"                { newToken(Token.FOR); }
-  "from"               { newToken(Token.FROM); }
-  "question"           { newToken(Token.QUESTION); }
-  "as"                 { newToken(Token.AS); }
-  "do"                 { newToken(Token.DO); }
-  "fallthrough"        { newToken(Token.FALLTHROUGH); }
-  "class"              { newToken(Token.CLASS); }
-  "deinit"             { newToken(Token.DEINIT); }
-  "enum"               { newToken(Token.DEFAULT); }
-  "extension"          { newToken(Token.EXTENSION); }
-  "func"               { newToken(Token.FUNC); }
-  "import"             { newToken(Token.IMPORT); }
-  "init"               { newToken(Token.INIT); }
-  "let"                { newToken(Token.LET); }
-  "protocol"           { newToken(Token.PROTOCOL); }
-  "static"             { newToken(Token.STATIC); }
-  "struct"             { newToken(Token.STRUCT); }
-  "subscript"          { newToken(Token.SUBSCRIPT); }
-  "typealias"          { newToken(Token.TYPEALIAS); }
-  "var"                { newToken(Token.VAR); }
+  "break"                        { newToken(TokenType.BREAK); }
+  "return"                       { newToken(TokenType.RETURN); }
+  "switch"                       { newToken(TokenType.SWITCH); }
+  "case"                         { newToken(TokenType.CASE); }
+  "default"                      { newToken(TokenType.DEFAULT); }
+  "if"                           { newToken(TokenType.IF); }
+  "else"                         { newToken(TokenType.ELSE); }
+  "repeat"                       { newToken(TokenType.REPEAT); }
+  "while"                        { newToken(TokenType.WHILE); }
+  "in"                           { newToken(TokenType.IN); }
+  "where"                        { newToken(TokenType.WHERE); }
+  "for"                          { newToken(TokenType.FOR); }
+  "from"                         { newToken(TokenType.FROM); }
+  "question"                     { newToken(TokenType.QUESTION); }
+  "as"                           { newToken(TokenType.AS); }
+  "do"                           { newToken(TokenType.DO); }
+  "fallthrough"                  { newToken(TokenType.FALLTHROUGH); }
+  "class" {WhiteSpace}+ {Identifier} { newToken(TokenType.CLASS); }
+  "deinit"                       { newToken(TokenType.DEINIT); }
+  "enum"                         { newToken(TokenType.DEFAULT); }
+  "extension"                    { newToken(TokenType.EXTENSION); }
+  "func" {WhiteSpace}+ {Identifier} { newToken(TokenType.FUNC); }
+  "import" {WhiteSpace}+ {Identifier} { newToken(TokenType.IMPORT); }
+  "init"                         { newToken(TokenType.INIT); }
+  "let"                          { newToken(TokenType.LET); }
+  "protocol"                     { newToken(TokenType.PROTOCOL); }
+  "static"                       { newToken(TokenType.STATIC); }
+  "struct"                       { newToken(TokenType.STRUCT); }
+  "subscript"                    { newToken(TokenType.SUBSCRIPT); }
+  "typealias"                    { newToken(TokenType.TYPEALIAS); }
+  "var"                          { newToken(TokenType.VAR); }
+  "try"                          { newToken(TokenType.TRY); }
+  "catch"                        { newToken(TokenType.CATCH); }
 
-  "true" | "false"               { newToken(Token.BOOL) ; }
+  "true" | "false"               { newToken(TokenType.BOOL) ; }
 
 
   /* Access Modifiers */
-  {AccessModifier}               { newToken(Token.ACCESS_MODIFIER); }
+  {AccessModifier}               { newToken(TokenType.ACCESS_MODIFIER); }
 
   /* Data Types */
-  {DataType}                     { newToken(Token.DATA_TYPE); }
+  {DataType}                     { newToken(TokenType.DATA_TYPE); }
+
+  {Identifier}/"("               { newToken(TokenType.FUNCTION); }
 
   /* identifiers */
-  {Identifier}                   { newToken(Token.IDENTIFIER); }
+  {Identifier}                   { newToken(TokenType.IDENTIFIER); }
 
   /* literals */
-  {DecFloatLiteral}              { newToken(Token.NUMBER); }
-  {DecIntegerLiteral}            { newToken(Token.NUMBER); }
-  {StringLiteral}                { newToken(Token.STRING); }
+  {DecFloatLiteral}              { newToken(TokenType.NUMBER); }
+  {DecIntegerLiteral}            { newToken(TokenType.NUMBER); }
+  {StringLiteral}                { newToken(TokenType.STRING); }
 
   /* operators */
-  {ComparisonOperators1}         { newToken(Token.COMPARISON); }
-  {LogicalOperators}             { newToken(Token.LOGICAL); }
-  {BitwiseOperators}             { newToken(Token.BITWISE); }
-  {ComparisonOperators2}         { newToken(Token.COMPARISON); }
-  {AssignmentOperators}          { newToken(Token.ASSIGN); }
-  {ArithmeticOperators}          { newToken(Token.ARITHMETIC); }
+  {ComparisonOperators1}         { newToken(TokenType.COMPARISON); }
+  {LogicalOperators}             { newToken(TokenType.LOGICAL); }
+  {BitwiseOperators}             { newToken(TokenType.BITWISE); }
+  {ComparisonOperators2}         { newToken(TokenType.COMPARISON); }
+  {AssignmentOperators}          { newToken(TokenType.ASSIGN); }
+  {ArithmeticOperators}          { newToken(TokenType.ARITHMETIC); }
+  {RangeOperators}               { newToken(TokenType.RANGE); }
 
-  ";"                            { newToken(Token.SEMICOLON); }
-  "{"                            { newToken(Token.L_FIGURE); }
-  "}"                            { newToken(Token.R_FIGURE); }
-  "("                            { newToken(Token.L_PAREN); }
-  ")"                            { newToken(Token.R_PAREN); }
-  "."                            { newToken(Token.DOT); }
-  "["                            { newToken(Token.L_BRACKET); }
-  "]"                            { newToken(Token.R_BRACKET); }
-  ";"                            { newToken(Token.SEMICOLON); }
-  ","                            { newToken(Token.COMMA); }
-  ":"                            { newToken(Token.COLON); }
-  "...<"                         { newToken(Token.ELLIPSIS_LESS); }
-  "..."                          { newToken(Token.ELLIPSIS); }
-  "->"                           { newToken(Token.RETURN_TYPE); }
-  "?"                            { newToken(Token.QUESTION); }
+  ";"                            { newToken(TokenType.SEMICOLON); }
+  "{"                            { newToken(TokenType.L_FIGURE); }
+  "}"                            { newToken(TokenType.R_FIGURE); }
+  "("                            { newToken(TokenType.L_PAREN); }
+  ")"                            { newToken(TokenType.R_PAREN); }
+  "."                            { newToken(TokenType.DOT); }
+  "["                            { newToken(TokenType.L_BRACKET); }
+  "]"                            { newToken(TokenType.R_BRACKET); }
+  ";"                            { newToken(TokenType.SEMICOLON); }
+  ","                            { newToken(TokenType.COMMA); }
+  ":"                            { newToken(TokenType.COLON); }
+  "->"                           { newToken(TokenType.RETURN_TYPE); }
+  "?"                            { newToken(TokenType.QUESTION); }
 
   /* comments */
   {Comment}                      { /* ignore */ }

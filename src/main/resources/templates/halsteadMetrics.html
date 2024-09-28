@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Метрики Холстеда для языка Swift</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Метрики Холстеда для языка Swift</h1>
+        <h2>Выполнили Елькин Матвей и Кротюк Иван - студенты гр.251004</h2>
+    </header>
+    <div>
+        <form method="post">
+            <h2>Код для анализа</h2>
+            <textarea name="code" th:text="${code} != null ? ${code} : '' "></textarea>
+            <button>Проанализировать</button>
+        </form>
+        <table>
+            <tr>
+                <th>i</th>
+                <th>Оператор</th>
+                <th>Количество</th>
+            </tr>
+            <tr th:each="operator : ${operators}">
+                <td th:text="${operatorStat.count}"></td>
+                <td th:text="${operator.key}"></td>
+                <td th:text="${operator.value}"></td>
+            </tr>
+        </table>
+        <table>
+            <tr>
+                <th>j</th>
+                <th>Операнд</th>
+                <th>Количество</th>
+            </tr>
+            <tr th:each="operand : ${operands}">
+                <td th:text="${operandStat.count}"></td>
+                <td th:text="${operand.key}"></td>
+                <td th:text="${operand.value}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
