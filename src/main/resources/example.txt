@@ -1,6 +1,6 @@
 import Foundation
 
-class TaskManager {
+class Task {
     var title: String
     var isCompleted: Bool
 
@@ -8,21 +8,57 @@ class TaskManager {
         self.title = title
         self.isCompleted = isCompleted
     }
+}
+
+class TaskManager {
+    var tasks: Array
+
+    init() {
+        tasks = Array()
+    }
+
+    func addTask(task: Task) {
+        tasks.append(task)
+    }
 
     func removeTask(at index: Int) {
-        if index >= 0 && index < tasks.count {
-            tasks.remove(at: index)
+        let taskCount = tasks.count
+        if index >= 0 {
+            if index < taskCount {
+                tasks.remove(at: index)
+            } else {
+                print("Invalid index. No task at this position.")
+            }
         }
     }
 
     func toggleTaskCompletion(at index: Int) {
-        if index >= 0 && index < tasks.count {
-            tasks[index].isCompleted.toggle()
+        let taskCount = tasks.count
+        if index >= 0 {
+            if index < taskCount {
+                let currentTask = tasks[index]
+                currentTask.isCompleted.toggle()
+            } else {
+                print("Invalid index. No task at this position.")
+            }
         }
     }
 
-    func allTasks() -> [Task] {
-        return tasks
+    func updateTaskTitle(at index: Int, newTitle: String) {
+        let taskCount = tasks.count
+        if index >= 0 {
+            if index < taskCount {
+                tasks[index].title = newTitle
+                print("Task title updated successfully.")
+            } else {
+                print("Invalid index. No task at this position.")
+            }
+        }
+    }
+
+    func allTasks() -> Array {
+        let allTasksArray = tasks
+        return allTasksArray
     }
 }
 
@@ -32,7 +68,8 @@ func printMenu() {
     2. Remove Task
     3. Toggle Task Completion
     4. List All Tasks
-    5. Exit
+    5. Update Task Title
+    6. Exit
     ")
 }
 
@@ -40,32 +77,60 @@ let taskManager = TaskManager()
 
 while true {
     printMenu()
-    let choice = readLine()
-        switch option {
-        case 1:
-            print("Enter task title:")
-            if let title = readLine() {
-                let task = Task(title: title)
-                taskManager.addTask(task)
+
+    if let choice = readLine() {
+        if let option = Int(choice) {
+            if option == 1 {
+                print("Enter task title:")
+                if let title = readLine(), !title.isEmpty {
+                    let task = Task(title: title)
+                    taskManager.addTask(task)
+                } else {
+                    print("Task title cannot be empty.")
+                }
+            } else if option == 2 {
+                print("Enter task index to remove:")
+                if let indexStr = readLine(), let index = Int(indexStr) {
+                    taskManager.removeTask(at: index)
+                } else {
+                    print("Please enter a valid index.")
+                }
+            } else if option == 3 {
+                print("Enter task index to toggle completion:")
+                if let indexStr = readLine(), let index = Int(indexStr) {
+                    taskManager.toggleTaskCompletion(at: index)
+                } else {
+                    print("Please enter a valid index.")
+                }
+            } else if option == 4 {
+                let tasks = taskManager.allTasks()
+                if tasks.isEmpty {
+                    print("No tasks available.")
+                } else {
+                    for task in tasks.enumerated() {
+                        print(task.isCompleted ? "Completed" : "Pending")
+                    }
+                }
+            } else if option == 5 {
+                print("Enter task index to update title:")
+                if let indexStr = readLine(), let index = Int(indexStr) {
+                    print("Enter new task title:")
+                    if let newTitle = readLine(), !newTitle.isEmpty {
+                        taskManager.updateTaskTitle(at: index, newTitle: newTitle)
+                    } else {
+                        print("New task title cannot be empty.")
+                    }
+                } else {
+                    print("Please enter a valid index.")
+                }
+            } else if option == 6 {
+                print("Exiting the program.")
+                exit(0)
+            } else {
+                print("Invalid option. Please try again.")
             }
-        case 2:
-            print("Enter task index to remove:")
-            if let indexStr = readLine(), let index = Int(indexStr) {
-                taskManager.removeTask(at: index)
-            }
-        case 3:
-            print("Enter task index to toggle completion:")
-            if let indexStr = readLine(), let index = Int(indexStr) {
-                taskManager.toggleTaskCompletion(at: index)
-            }
-        case 4:
-            let tasks = taskManager.allTasks()
-            for (index, task) in tasks.enumerated() {
-                print(task.title)
-            }
-        case 5:
-            exit(0)
-        default:
-            print("Invalid option. Please try again.")
+        } else {
+            print("Please enter a valid number.")
         }
+    }
 }

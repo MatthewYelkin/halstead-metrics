@@ -43,7 +43,8 @@ public class TokenService {
             TokenType.TRY,
             TokenType.RETURN,
             TokenType.SEMICOLON,
-            TokenType.COMMA
+            TokenType.COMMA,
+            TokenType.INIT
     );
 
     private static final List<TokenType> operandTokens = List.of(
@@ -73,9 +74,9 @@ public class TokenService {
             var text = token.getTextValue();
 
             switch (tokenType) {
-                case CASE, DEFAULT -> colonToRemove++;
+                case CASE, DEFAULT, QUESTION -> colonToRemove++;
                 case FUNC -> { parenToRemove++; figureToRemove++; }
-                case CLASS, IF, SWITCH, WHILE, FOR -> figureToRemove++;
+                case CLASS, IF, SWITCH, WHILE, FOR, INIT, ELSE, ELIF -> figureToRemove++;
             }
 
             if (operandTokens.contains(tokenType)) {
@@ -93,6 +94,7 @@ public class TokenService {
                     case L_BRACKET -> text += "]";
                     case L_FIGURE -> text += "}";
                     case L_PAREN -> text += ")";
+                    case QUESTION -> text += ":";
                 }
 
                 if (operators.containsKey(text)) {
@@ -107,18 +109,24 @@ public class TokenService {
             int count = operators.get("()") - parenToRemove;
             if (count > 0)
                 operators.put("()", count);
+            else
+                operators.remove("()");
         }
 
         if (figureToRemove != 0) {
             int count = operators.get("{}") - figureToRemove;
             if (count > 0)
                 operators.put("{}", count);
+            else
+                operators.remove("{}");
         }
 
         if (colonToRemove != 0) {
             int count = operators.get(":") - colonToRemove;
             if (count > 0)
                 operators.put(":", count);
+            else
+                operators.remove(":");
         }
     }
 }

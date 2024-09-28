@@ -55,15 +55,18 @@ StringLiteral = "\"" [^"\""]* "\""
   "case"                         { newToken(TokenType.CASE); }
   "default"                      { newToken(TokenType.DEFAULT); }
   "if"                           { newToken(TokenType.IF); }
+  "else if"                      { newToken(TokenType.ELIF); }
   "else"                         { newToken(TokenType.ELSE); }
   "repeat"                       { newToken(TokenType.REPEAT); }
   "while"                        { newToken(TokenType.WHILE); }
+  "init("                         { newToken(TokenType.INIT); }
   "in"                           { newToken(TokenType.IN); }
   "where"                        { newToken(TokenType.WHERE); }
   "for"                          { newToken(TokenType.FOR); }
   "from"                         { newToken(TokenType.FROM); }
   "question"                     { newToken(TokenType.QUESTION); }
   "as"                           { newToken(TokenType.AS); }
+  "at"                           { newToken(TokenType.AT); }
   "do"                           { newToken(TokenType.DO); }
   "fallthrough"                  { newToken(TokenType.FALLTHROUGH); }
   "class" {WhiteSpace}+ {Identifier} { newToken(TokenType.CLASS); }
@@ -72,7 +75,6 @@ StringLiteral = "\"" [^"\""]* "\""
   "extension"                    { newToken(TokenType.EXTENSION); }
   "func" {WhiteSpace}+ {Identifier} { newToken(TokenType.FUNC); }
   "import" {WhiteSpace}+ {Identifier} { newToken(TokenType.IMPORT); }
-  "init"                         { newToken(TokenType.INIT); }
   "let"                          { newToken(TokenType.LET); }
   "protocol"                     { newToken(TokenType.PROTOCOL); }
   "static"                       { newToken(TokenType.STATIC); }
