@@ -33,9 +33,9 @@
                 <td th:text="${operator.value}"></td>
             </tr>
             <tr>
-                <th th:text="'n=' + ${metrics.getCountOfUniqueOperators()}"></th>
+                <th th:text="'n=' + (${metrics} != null ? ${metrics.getCountOfUniqueOperators()} : '')"></th>
                 <th></th>
-                <th th:text="'N=' + ${metrics.getCountOfOperators()}"></th>
+                <th th:text="'N=' + (${metrics} != null ? ${metrics.getCountOfOperators()} : '')"></th>
             </tr>
         </table>
         <table>
@@ -50,9 +50,9 @@
                 <td th:text="${operand.value}"></td>
             </tr>
             <tr>
-                <th th:text="'n=' + ${metrics.getCountOfUniqueOperands()}"></th>
+                <th th:text="'n=' + (${metrics} != null ? ${metrics.getCountOfUniqueOperands()} : '')"></th>
                 <th></th>
-                <th th:text="'N=' + ${metrics.getCountOfOperands()}"></th>
+                <th th:text="'N=' + (${metrics} != null ? ${metrics.getCountOfOperands()} : '')"></th>
             </tr>
         </table>
     </div>
