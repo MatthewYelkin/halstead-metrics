@@ -59,7 +59,7 @@ StringLiteral = "\"" [^"\""]* "\""
   "else"                         { newToken(TokenType.ELSE); }
   "repeat"                       { newToken(TokenType.REPEAT); }
   "while"                        { newToken(TokenType.WHILE); }
-  "init("                         { newToken(TokenType.INIT); }
+  "init("                        { newToken(TokenType.INIT); }
   "in"                           { newToken(TokenType.IN); }
   "where"                        { newToken(TokenType.WHERE); }
   "for"                          { newToken(TokenType.FOR); }

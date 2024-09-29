@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 @Controller
 @RequiredArgsConstructor
 public class MainController {
@@ -23,8 +25,13 @@ public class MainController {
         tokenService.analyzeCode(code);
 
         model.addAttribute("code", code);
-        model.addAttribute("operands", tokenService.getOperands());
-        model.addAttribute("operators", tokenService.getOperators());
+        model.addAttribute("operands", tokenService.getOperands()
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()));
+        model.addAttribute("operators", tokenService.getOperators()
+                .entrySet().stream()
+                .sorted(Map.Entry.<String, Integer>comparingByValue().reversed()));
+        model.addAttribute("metrics", tokenService.getMetrics());
 
         return getMainPage();
     }

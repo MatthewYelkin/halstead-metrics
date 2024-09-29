@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Метрики Холстеда для языка Swift</title>
@@ -15,6 +15,11 @@
             <h2>Код для анализа</h2>
             <textarea name="code" th:text="${code} != null ? ${code} : '' "></textarea>
             <button>Проанализировать</button>
+            <div th:if="${metrics} != null">
+                <h3 th:text="'Словарь программы n = ' + ${metrics.getCountOfUniqueOperators()} + ' + ' + ${metrics.getCountOfUniqueOperands()} + ' = ' + ${metrics.getProgramMap()}"></h3>
+                <h3 th:text="'Длина программы N = ' + ${metrics.getCountOfOperators()} + ' + ' + ${metrics.getCountOfOperands()} + ' = ' + ${metrics.getProgramLength()}"></h3>
+                <h3 th:text="'Объем программы V = ' + ${metrics.getProgramLength()} + ' log_2 ' + ${metrics.getProgramMap()} + ' = ' + ${metrics.getVolume()}"></h3>
+            </div>
         </form>
         <table>
             <tr>
@@ -27,6 +32,11 @@
                 <td th:text="${operator.key}"></td>
                 <td th:text="${operator.value}"></td>
             </tr>
+            <tr>
+                <th th:text="'n=' + ${metrics.getCountOfUniqueOperators()}"></th>
+                <th></th>
+                <th th:text="'N=' + ${metrics.getCountOfOperators()}"></th>
+            </tr>
         </table>
         <table>
             <tr>
@@ -38,6 +48,11 @@
                 <td th:text="${operandStat.count}"></td>
                 <td th:text="${operand.key}"></td>
                 <td th:text="${operand.value}"></td>
+            </tr>
+            <tr>
+                <th th:text="'n=' + ${metrics.getCountOfUniqueOperands()}"></th>
+                <th></th>
+                <th th:text="'N=' + ${metrics.getCountOfOperands()}"></th>
             </tr>
         </table>
     </div>

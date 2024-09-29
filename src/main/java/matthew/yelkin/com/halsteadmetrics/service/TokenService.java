@@ -5,6 +5,7 @@ import lombok.SneakyThrows;
 import matthew.yelkin.com.halsteadmetrics.jflex.Lexer;
 import matthew.yelkin.com.halsteadmetrics.jflex.Token;
 import matthew.yelkin.com.halsteadmetrics.jflex.TokenType;
+import matthew.yelkin.com.halsteadmetrics.model.Metrics;
 import org.springframework.stereotype.Service;
 
 import java.io.StringReader;
@@ -27,7 +28,6 @@ public class TokenService {
             TokenType.LOGICAL,
             TokenType.WHERE,
             TokenType.IF,
-            TokenType.IN,
             TokenType.BREAK,
             TokenType.AS,
             TokenType.ASSIGN,
@@ -57,6 +57,7 @@ public class TokenService {
 
     private final HashMap<String, Integer> operands = new HashMap<>();
     private final HashMap<String, Integer> operators = new HashMap<>();
+    private Metrics metrics;
 
     @SneakyThrows
     public void analyzeCode(String code) {
@@ -95,6 +96,7 @@ public class TokenService {
                     case L_FIGURE -> text += "}";
                     case L_PAREN -> text += ")";
                     case QUESTION -> text += ":";
+                    case INIT -> text += ")";
                 }
 
                 if (operators.containsKey(text)) {
@@ -128,5 +130,7 @@ public class TokenService {
             else
                 operators.remove(":");
         }
+
+        metrics = new Metrics(operands, operators);
     }
 }

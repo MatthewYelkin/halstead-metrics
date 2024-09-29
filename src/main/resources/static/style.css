@@ -18,6 +18,18 @@ textarea {
 form {
     text-align: center;
     width: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+button {
+    margin: 10px 0 10px;
+    width: 200px;
+}
+
+form div {
+    display: block;
 }
 
 table {
