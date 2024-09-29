@@ -24,6 +24,7 @@ public class TokenService {
             TokenType.SWITCH,
             TokenType.CONTAINS,
             TokenType.BITWISE,
+            TokenType.COMPARISON,
             TokenType.ARITHMETIC,
             TokenType.LOGICAL,
             TokenType.WHERE,
