@@ -11,11 +11,10 @@ import org.springframework.stereotype.Service;
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 @Getter
 @Service
-public class TokenService {
+public class TokenServiceForHalstead {
     private static final List<TokenType> operatorTokens = List.of(
             TokenType.WHILE,
             TokenType.CONTINUE,
@@ -45,7 +44,8 @@ public class TokenService {
             TokenType.RETURN,
             TokenType.SEMICOLON,
             TokenType.COMMA,
-            TokenType.INIT
+            TokenType.INIT,
+            TokenType.RETURN_TYPE
     );
 
     private static final List<TokenType> operandTokens = List.of(

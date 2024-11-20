@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Метрики Холстеда для языка Swift</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Метрики Джилба для языка Swift</h1>
+        <h2>Выполнили Елькин Матвей и Кротюк Иван - студенты гр.251004</h2>
+    </header>
+    <div>
+        <form method="post">
+            <h2>Код для анализа</h2>
+            <textarea name="code" th:text="${code} != null ? ${code} : '' "></textarea>
+            <button>Проанализировать</button>
+        </form>
+        <table>
+            <tr>
+                <th>Метрика</th>
+                <th>Значение</th>
+            </tr>
+            <tr>
+                <td>Количество условных операторов CL</td>
+                <td th:text="${conditionalOperatorsCount}"></td>
+            </tr>
+            <tr>
+                <td>Количество операторов</td>
+                <td th:text="${operatorsCount}"></td>
+            </tr>
+            <tr>
+                <td>Насыщенность программы условными операторами cl</td>
+                <td th:text="${difficulty}"></td>
+            </tr>
+            <tr>
+                <td>Максимальный уровень вложенности условного оператора CLI</td>
+                <td th:text="${maxNestingLevel}"></td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
